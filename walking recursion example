@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+void reachHome(int scr ,int dest){
+    
+    cout << " source " << scr << " destination " << dest << endl;
+    //base case
+    if(scr == dest) {
+        cout<< "Reached home" << endl;
+        
+        return ;
+    }
+    //processing - walk one step
+    scr++;
+    //recursive call
+    reachHome(scr , dest);
+}
+
+int main() {
+    int dest = 10;
+    int scr = 1;
+    
+    cout<< endl;
+    
+    reachHome(scr , dest);
+}
