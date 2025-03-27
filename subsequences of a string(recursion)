@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+void Subsequences(string str, string output, int index) {
+  //base case
+    if (index == str.length()) {
+        cout << output << endl; // Print the current subsequence
+        return;
+    }
+
+    // Include the current character
+    Subsequences(str, output + str[index], index + 1);
+
+    // Exclude the current character
+    Subsequences(str, output, index + 1);
+}
+
+int main() {
+    string str = "abc"; // Input string
+    Subsequences(str, "", 0); // Start recursion
+    return 0;
+}
