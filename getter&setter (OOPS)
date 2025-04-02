@@ -27,7 +27,7 @@ class Hero{
 };
 int main(){
     Hero h1;
-    cout<< "hi health is"<<h1.getHealth()<< endl;
+    cout<< "h1 health is"<<h1.getHealth()<< endl;
     h1.setHealth(50);
     h1.level = 'A';
     cout<<"health is:"<< h1.getHealth()<<endl;
