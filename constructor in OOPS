@@ -1,0 +1,45 @@
+#include <iostream>
+#include <cstring> // for strlen and strcpy
+using namespace std;
+
+class Hero {
+private:
+    int health;
+
+public:
+    char *name;
+    char level;
+    static int timeToComplete;
+
+    // Default Constructor
+    Hero() {
+        cout << "Simple constructor called" << endl;
+        name = new char[100];
+    }
+
+    // Parameterized Constructor - 1
+    Hero(int health) {
+        this->health = health;
+    }
+
+    // Parameterized Constructor - 2
+    Hero(int health, char level) {
+        this->health = health;
+        this->level = level;
+    }
+
+    // Copy Constructor
+    Hero(Hero& temp) {
+        // Deep copy of name
+        char *ch = new char[strlen(temp.name) + 1];
+        strcpy(ch, temp.name);
+        this->name = ch;
+
+        cout << "Copy constructor called" << endl;
+        this->health = temp.health;
+        this->level = temp.level;
+    }
+};
+
+// Static member initialization (outside the class)
+int Hero::timeToComplete = 5;
