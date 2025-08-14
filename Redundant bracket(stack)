@@ -1,0 +1,41 @@
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+
+bool isRedundant(string str){
+    stack<char> s;
+    
+    for(char ch : str){
+        if(ch == '(' || ch == '+' || ch == '-' || ch == '*' || ch == '/')
+        s.push(ch);
+        
+        else if(ch == ')') {
+            bool hasOperator = false;
+            
+            while(!s.empty() && s.top() != '(') {
+                char top = s.top();
+                s.pop();
+                
+                if(top == '+' || top == '-' || top == '*' || top == '/')
+                    hasOperator = true;
+            }
+            if(!s.empty())s.pop();
+            
+            if(!hasOperator)return true;
+            
+        }
+    }
+    return false;
+}
+int main(){
+    string expression;
+    cout << "Enter expression: ";
+    cin >> expression;
+    
+    if(isRedundant(expression))
+        cout<< "Redundant brackets found\n";
+    else
+        cout << "No Redundant brackets\n";
+    return 0;
+}
