@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int findMinimumCost(string str) {
+    if (str.length() % 2 != 0) 
+        return -1;
+
+    stack<char> s;
+
+    for (char ch : str) {
+        if (ch == '{') {
+            s.push(ch);
+        }
+        else {
+            if (!s.empty() && s.top() == '{')
+                s.pop(); 
+            else
+                s.push(ch);
+        }
+    }
+
+    int a = 0, b = 0; 
+
+    while (!s.empty()) {
+        if (s.top() == '{') 
+            b++;
+        else 
+            a++;
+        s.pop();
+    }
+
+    return (a + 1) / 2 + (b + 1) / 2;
+}
+
+int main() {
+    string str;
+    cout << "Enter the string of brackets: ";
+    cin >> str;
+
+    int result = findMinimumCost(str);
+
+    if (result == -1)
+        cout << "Impossible to balance\n";
+    else
+        cout << "Minimum reversals needed: " << result << endl;
+
+    return 0;
+}
