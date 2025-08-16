@@ -1,0 +1,37 @@
+#include <iostream>
+#include<stack>
+#include<vector>
+using namespace std;
+
+vector<int> nextSmaller(vector<int>& heights, int n) {
+    stack<int> st;            
+    vector<int> nse(n);        
+
+  
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && st.top() >= heights[i]) {
+            st.pop();
+        }
+
+       
+        nse[i] = st.empty() ? -1 : st.top();
+
+        st.push(heights[i]);
+    }
+    return nse;
+}
+
+int main() {
+    vector<int> heights = {2, 1, 5, 6, 2, 3};
+    int n = heights.size();
+
+    vector<int> nse = nextSmaller(heights, n);
+
+    cout << "Next Smaller Elements: ";
+    for (int val : nse) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
