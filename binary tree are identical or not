@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val){
+        data = val;
+        left = right = NULL;
+    }
+};
+bool isIdentical(Node* r1,Node* r2){
+    
+    if(r1 == NULL && r2 == NULL)return true;
+    
+    if(r1 == NULL || r2 == NULL)return false;
+    
+    return(r1 ->data == r2 ->data) &&
+        isIdentical(r1->left, r2->left) &&
+        isIdentical(r1->right, r2->right);
+}
+Node* buildTree1() {
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    return root;
+}
+Node* buildTree2() {
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    return root;
+}
+Node* buildTree3() {
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(99); 
+    return root;
+}
+int main(){
+    Node* root1 = buildTree1();
+    Node* root2 = buildTree2();
+    Node* root3 = buildTree3();
+    
+    cout << "Tree1 vs Tree2 identical? " 
+         << (isIdentical(root1, root2) ? "Yes" : "No") << endl;
+
+    cout << "Tree1 vs Tree3 identical? " 
+         << (isIdentical(root1, root3) ? "Yes" : "No") << endl;
+         
+    cout << "Tree2 vs Tree3 identical? " 
+         << (isIdentical(root2, root3) ? "Yes" : "No") << endl;
+
+    return 0;
+}
