@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(NULL), right(NULL) {}
+};
+
+vector<vector<int>> verticalOrder(Node* root) {
+    vector<vector<int>> result;
+    if (!root) return result;
+
+    map<int, map<int, vector<int>>> nodes;
+    queue<pair<Node*, pair<int, int>>> q; 
+
+    q.push({root, {0, 0}});
+
+    while (!q.empty()) {
+        auto p = q.front();
+        q.pop();
+        Node* node = p.first;
+        int hd = p.second.first;
+        int lvl = p.second.second;
+
+        nodes[hd][lvl].push_back(node->data);
+
+        if (node->left) q.push({node->left, {hd - 1, lvl + 1}});
+        if (node->right) q.push({node->right, {hd + 1, lvl + 1}});
+    }
+
+    for (auto& hdPair : nodes) {
+        vector<int> col;
+        for (auto& lvlPair : hdPair.second) {
+            col.insert(col.end(), lvlPair.second.begin(), lvlPair.second.end());
+        }
+        result.push_back(col);
+    }
+
+    return result;
+}
+int main() {
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
+    root->right->left->right = new Node(8);
+
+    vector<vector<int>> ans = verticalOrder(root);
+    for (auto& col : ans) {
+        for (int x : col) cout << x << " ";
+        cout << endl;
+    }
+    return 0;
+}
