@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+class Solution{
+    public:
+    Node* solve(Node* root, int &k, int node, Node* &ans){
+        if(root == NULL) return NULL;
+        
+        if(root->data == node) return root;
+        
+         Node* leftAns = solve(root->left,k,node,ans);
+        Node* rightAns = solve(root->right,k,node,ans);
+        
+        if(leftAns != NULL || rightAns != NULL){
+            k--;
+            
+            if(k == 0){
+                ans = root;
+                k = INT_MAX;
+            }
+            return root;
+        }
+        return NULL;
+    }
+    int kthAncestor(Node* root, int k, int node){
+        Node* ans = NULL;
+        solve(root,k,node,ans);
+        if(ans == NULL) return -1;
+        return ans->data;
+    }
+};
+int main(){
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    
+    Solution s;
+    
+    cout << "2nd ancestor of 4: " << s.kthAncestor(root, 2, 4) << endl; // Output: 1
+    cout << "1st ancestor of 5: " << s.kthAncestor(root, 1, 5) << endl; // Output: 2
+    cout << "3rd ancestor of 4: " << s.kthAncestor(root, 3, 4) << endl; // Output: -1
+
+    return 0;
+}
