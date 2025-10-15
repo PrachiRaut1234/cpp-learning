@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val): data(val), left(NULL), right(NULL) {}
+};
+
+Node* build(vector<int>& in, vector<int>& post, int& i, int l, int r, unordered_map<int,int>& pos) {
+    if (i < 0 || l > r) return NULL;
+    Node* root = new Node(post[i--]);      
+    int p = pos[root->data];
+    root->right = build(in, post, i, p+1, r, pos); 
+    root->left  = build(in, post, i, l, p-1, pos);
+    return root;
+}
+
+Node* buildTree(vector<int> in, vector<int> post) {
+    unordered_map<int,int> pos;
+    for (int j = 0; j < in.size(); j++) pos[in[j]] = j;
+    int i = post.size() - 1;
+    return build(in, post, i, 0, in.size()-1, pos);
+}
+
+
+void pre(Node* r){ if(!r) return; cout<<r->data<<" "; pre(r->left); pre(r->right); }
+
+int main() {
+    vector<int> in = {4,8,2,5,1,6,3,7}, post = {8,4,5,2,6,7,3,1};
+    Node* root = buildTree(in, post);
+    pre(root); 
+}
