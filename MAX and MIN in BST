@@ -1,0 +1,62 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* left;
+        Node* right;
+        
+        Node(int d){
+            data = d;
+            left = NULL;
+            right = NULL;
+        }
+};
+Node* insertIntoBST(Node* root, int d){
+    if(root == NULL){
+        root = new Node(d);
+        return root;
+    }
+    if(d  > root->data)
+        root->right = insertIntoBST(root-> right,d);
+    else
+        root -> left = insertIntoBST(root->left , d);
+        
+    return root;
+}
+Node* minValue(Node* root){
+    Node* temp = root;
+    if(temp == NULL)
+        return NULL;
+    
+    while(temp->left != NULL){
+        temp = temp -> left;
+    }
+    return temp;
+}
+Node* maxValue(Node* root){
+    Node* temp = root;
+    if(temp == NULL)
+        return NULL;
+    
+    while(temp->right != NULL){
+        temp = temp->right;
+    }
+    return temp;
+}
+int main(){
+    Node* root = NULL;
+    root = insertIntoBST(root,50);
+    insertIntoBST(root,30);
+    insertIntoBST(root, 70);
+    insertIntoBST(root, 20);
+    insertIntoBST(root, 40);
+    insertIntoBST(root, 60);
+    insertIntoBST(root, 80);
+    
+    cout << "Minimum value in BST:" << minValue(root)->data << endl;
+    cout << "Maximun value in BST:" << maxValue(root)->data << endl;
+    
+    return 0;
+}
