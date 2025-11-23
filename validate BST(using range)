@@ -1,0 +1,64 @@
+#include<iostream>
+#include<climits>
+#include<vector>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* left;
+        Node* right;
+        
+        Node(int d){
+            data = d;
+            left = NULL;
+            right = NULL;
+        }
+};
+Node* insertIntoBST(Node* root, int d){
+    if(root == NULL){
+        root = new Node(d);
+        return root;
+    }
+    if(d  > root->data)
+        root->right = insertIntoBST(root-> right,d);
+    else
+        root -> left = insertIntoBST(root->left , d);
+        
+    return root;
+}
+void inorderTraversal(Node* root, vector<int> &inorder) {
+    if(root == NULL) return;
+    inorderTraversal(root->left, inorder);
+    inorder.push_back(root->data);
+    inorderTraversal(root->right, inorder);
+}
+bool isBSTRange(Node* root, int minVal, int maxVal){
+    if(root == NULL)
+        return true;
+        
+    if(root->data <= minVal || root->data >= maxVal)
+        return false;
+    
+    return isBSTRange(root->left,minVal,root->data)&&
+    isBSTRange(root->right,root->data,maxVal);
+}
+int main() {
+    Node* root = NULL;
+
+    
+    root = insertIntoBST(root, 50);
+    insertIntoBST(root, 30);
+    insertIntoBST(root, 70);
+    insertIntoBST(root, 20);
+    insertIntoBST(root, 40);
+    insertIntoBST(root, 60);
+    insertIntoBST(root, 80);
+    
+    cout << "Check BST using Range Validation: ";
+    if(isBSTRange(root,INT_MIN,INT_MIN))
+        cout << "Valid BST" << endl;
+    else
+        cout << "Not a BST" << endl;
+    return 0;
+}
