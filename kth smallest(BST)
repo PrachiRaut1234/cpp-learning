@@ -1,0 +1,59 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* left;
+        Node* right;
+        
+        Node(int d){
+            data = d;
+            left = NULL;
+            right = NULL;
+        }
+};
+Node* insertIntoBST(Node* root, int d){
+    if(root == NULL){
+        root = new Node(d);
+        return root;
+    }
+    if(d  > root->data)
+        root->right = insertIntoBST(root-> right,d);
+    else
+        root -> left = insertIntoBST(root->left , d);
+        
+    return root;
+}
+int solveKthSmallest(Node* root, int &i, int k){
+    if(root == NULL)
+        return -1;
+        
+    int left = solveKthSmallest(root->left, i ,k);
+    if(left != -1) return left;
+    
+    i++;
+    if(i == k) return root-> data;
+    
+    return solveKthSmallest(root->right, i, k);
+}
+int kthSmallest(Node* root, int k){
+    int i = 0;
+    return solveKthSmallest(root, i ,k);
+}
+int main(){
+    Node* root = NULL;
+    
+    root = insertIntoBST(root, 5);
+    insertIntoBST(root, 3);
+    insertIntoBST(root, 7);
+    insertIntoBST(root, 2);
+    insertIntoBST(root, 4);
+    insertIntoBST(root, 6);
+    insertIntoBST(root, 8);
+    
+    int k1 = 3;
+    cout << k1 << "-th Smallest Element: " << kthSmallest(root, k1) << endl;
+    
+    return 0;
+}
