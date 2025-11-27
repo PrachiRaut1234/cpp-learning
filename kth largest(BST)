@@ -1,0 +1,59 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* left;
+        Node* right;
+        
+        Node(int d){
+            data = d;
+            left = NULL;
+            right = NULL;
+        }
+};
+Node* insertIntoBST(Node* root, int d){
+    if(root == NULL){
+        root = new Node(d);
+        return root;
+    }
+    if(d  > root->data)
+        root->right = insertIntoBST(root-> right,d);
+    else
+        root -> left = insertIntoBST(root->left , d);
+        
+    return root;
+}
+int solveKthLargest(Node* root, int &i, int k){
+    if(root == NULL)
+        return -1;
+        
+    int right = solveKthLargest(root->right, i ,k);
+    if(right != -1) return right;
+    
+    i++;
+    if(i == k) return root-> data;
+    
+    return solveKthLargest(root->left, i, k);
+}
+int kthLargest(Node* root, int k){
+    int i = 0;
+    return solveKthLargest(root, i ,k);
+}
+int main(){
+    Node* root = NULL;
+    
+    root = insertIntoBST(root, 5);
+    insertIntoBST(root, 3);
+    insertIntoBST(root, 7);
+    insertIntoBST(root, 2);
+    insertIntoBST(root, 4);
+    insertIntoBST(root, 6);
+    insertIntoBST(root, 8);
+    
+    int k1 = 3;
+    cout << k1 << "-th Largest Element: " << kthLargest(root, k1) << endl;
+    
+    return 0;
+}
