@@ -1,0 +1,76 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* left;
+        Node* right;
+        
+        Node(int d){
+            data = d;
+            left = NULL;
+            right = NULL;
+            
+        }
+};
+Node* insertIntoBST(Node* root, int d){
+    if(root == NULL)
+        return new Node(d);
+        
+        if(d > root->data)
+            root->right = insertIntoBST(root->right, d);
+        else
+            root->left = insertIntoBST(root->left, d);
+            
+        return root;
+}
+pair<int, int> findPreSuc(Node* root, int key){
+    int predecessor = -1, successor = -1;
+    Node* temp = root;
+    
+    while(temp && temp->data != key){
+        if(temp->data > key){
+            successor = temp->data;
+            temp = temp->left;
+        }else{
+            predecessor = temp->data;
+            temp = temp->right;
+        }
+    }
+    if(temp == NULL)
+        return{predecessor, successor};
+    if(temp->left){
+        Node* leftTree = temp->left;
+        while(leftTree->right != NULL)
+            leftTree = leftTree->right;
+        predecessor = leftTree->data;
+    }
+    if(temp->right){
+        Node* rightTree = temp->right;
+        while(rightTree->left != NULL)
+            rightTree = rightTree->left;
+        successor = rightTree->data;
+    }
+    return {predecessor, successor};
+}
+int main(){
+    Node* root = NULL;
+    
+    root = insertIntoBST(root, 50);
+    insertIntoBST(root, 30);
+    insertIntoBST(root, 70);
+    insertIntoBST(root, 20);
+    insertIntoBST(root, 40);
+    insertIntoBST(root, 60);
+    insertIntoBST(root, 80);
+    
+    int key =40;
+    pair<int , int> ans = findPreSuc(root, key);
+    
+    cout << "Key:" << key << endl;
+    cout << "Inorder Predecessor:" << ans.first << endl;
+    cout << "Inorder Successor:" << ans.second << endl;
+    
+    return 0;
+}
