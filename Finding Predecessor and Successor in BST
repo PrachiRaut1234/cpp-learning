@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(NULL), right(NULL){}
+};
+Node* insertBST(Node* root, int val) {
+    if (!root) return new Node(val);
+
+    if (val < root->data)
+        root->left = insertBST(root->left, val);
+    else
+        root->right = insertBST(root->right, val);
+
+    return root;
+}
+pair<int,int> predecessorSuccessor(Node* root, int key){
+    int pred = -1, succ = -1;
+    Node* temp = root;
+    
+    while(temp && temp->data != key){
+        if(temp->data > key){
+            succ = temp->data;
+            temp = temp->left;
+        }
+        else{
+            pred = temp->data;
+            temp = temp->right;
+        }
+    }
+    if(!temp)
+        return{-1,-1};
+        
+    Node* leftTree = temp->left;
+    while(leftTree){
+        pred = leftTree->data;
+        leftTree = leftTree->right;
+    }
+    Node* rightTree = temp->right;
+    while(rightTree){
+        succ = rightTree->data;
+        rightTree = rightTree->left;
+    }
+    return{pred, succ};
+}
+int main(){
+    Node* root = NULL;
+
+
+    vector<int> values = {20, 8, 22, 4, 12, 10, 14};
+    for (int v : values)
+        root = insertBST(root, v);
+
+    int key = 10;
+    pair<int,int> ans = predecessorSuccessor(root, key);
+
+    cout << "Predecessor: " << ans.first << endl;
+    cout << "Successor: " << ans.second << endl;
+
+    return 0;
+}
