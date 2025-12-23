@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(NULL),right(NULL) {
+    }
+};
+Node* insertBST(Node* root, int val){
+    if(!root) return new Node(val);
+    if(val < root->data) root->left = insertBST(root->left, val);
+    else root->right = insertBST(root->right, val);
+    return root; 
+}
+void inorder(Node* root, vector<int>& in){
+    if(!root)return;
+    inorder(root->left, in);
+    in.push_back(root->data);
+    inorder(root->right, in);
+}
+bool twoSumInBST(Node* root, int target){
+    vector<int> in;
+    inorder(root, in);
+    
+    int i = 0, j = (int)in.size() - 1;
+    while(i < j){
+        int sum = in[i] + in[j];
+        if(sum == target) return true;
+        else if(sum < target) i++;
+        else j--;
+    }
+    return false;
+}
+int main() {
+    Node* root = NULL;
+    vector<int> values = {5, 3, 6, 2, 4, 7};
+    for (int v : values) root = insertBST(root, v);
+
+    int target = 9;
+    cout << (twoSumInBST(root, target) ? "True" : "False") << endl;
+    return 0;
+}
