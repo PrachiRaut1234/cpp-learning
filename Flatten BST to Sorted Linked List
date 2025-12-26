@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(NULL),right(NULL) {
+    }
+};
+Node* insertBST(Node* root, int val){
+    if(!root) return new Node(val);
+    if(val < root->data) root->left = insertBST(root->left, val);
+    else root->right = insertBST(root->right, val);
+    return root; 
+}
+void inorder(Node* root, vector<Node*>& in){
+    if(!root)return;
+    inorder(root->left, in);
+    in.push_back(root);
+    inorder(root->right, in);
+}
+Node* flattenBST(Node* root){
+    vector<Node*> in;
+    inorder(root, in);
+    
+    for(int i = 0; i < in.size() - 1; i++){
+        in[i]->left = NULL;
+        in[i]->right = in[i+1];
+    }
+    in.back()->left = NULL;
+    in.back()->right = NULL;
+    
+    return in[0];
+}
+int main(){
+    Node* root = NULL;
+    for(int v : {5,3,7,2,4,6,8})
+        root = insertBST(root, v);
+    Node* head = flattenBST(root);
+    while(head){
+        cout << head->data << " ";
+        head = head->right;
+    }
+    return 0;
+}
